@@ -23,7 +23,7 @@ public abstract class CardsHtml {
                 .map(Card::toHtml)
                 .collect(Collectors.joining("\n"));
         Files.writeString(
-                Path.of("/temp/cards.html"),
+                Path.of("cards.html"),
                 """
                         <html>
                         <head>
