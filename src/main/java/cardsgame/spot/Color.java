@@ -17,6 +17,6 @@ public enum Color {
     }
 
     public String html() {
-        return ".card ." + name() + " {border-color:" + name() + ";}.card .dot { background-color:" + name() + ";}";
+        return ".card ." + name() + " {border-color:" + name() + ";}.card .dot." + name() + " { background-color:" + name() + ";}";
     }
 }

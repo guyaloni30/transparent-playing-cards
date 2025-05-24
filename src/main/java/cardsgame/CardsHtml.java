@@ -26,15 +26,35 @@ public abstract class CardsHtml {
                         <head>
                             <style>
                                 :root {
+                                    --body-bg-color: #ffffff;
+                                    --body-color: #000000;
                                     --CARD_BORDER_WIDTH: 5px;
                                     --SIZE: {{SIZE}}px;
                                     --PADDING: calc(var(--SIZE) / 5);
                                 }
-                                body { margin: 0; }
+                                html.dark-theme {
+                                  --body-bg-color: #000000;
+                                  --body-color: #ffffff;
+                                }
+                                body {
+                                    margin: var(--PADDING) 0 0 var(--PADDING);
+                                    background-color: var(--body-bg-color);
+                                    color: var(--body-color);
+                                }
+                                label {
+                                    display: block;
+                                    padding: var(--PADDING);
+                                    text-align: right;
+                                    user-select: none;
+                                    font-family: Arial, sans-serif;
+                                }
+                                label input[type="checkbox"] {
+                                    margin-right: 5px;
+                                }
                                 div { box-sizing: border-box; }
                                 .card {
                                     display: inline-block;
-                                    margin: var(--PADDING) 0 0 var(--PADDING);
+                                    margin: 0 var(--PADDING) var(--PADDING) 0;
                                     width:  calc(3 * calc(var(--SIZE) + var(--PADDING)) + var(--PADDING) + 2 * var(--CARD_BORDER_WIDTH));
                                     height: calc(4 * calc(var(--SIZE) + var(--PADDING)) + var(--PADDING) + 2 * var(--CARD_BORDER_WIDTH));
                                     border: var(--CARD_BORDER_WIDTH) solid purple;
@@ -69,7 +89,18 @@ public abstract class CardsHtml {
                             </style>
                         </head>
                         <body>
+                        <label><input type="checkbox" id="theme-switcher">Dark mode</label>
                         {{CARDS_HTML}}
+                        <script>
+                            const themeSwitcher = document.getElementById("theme-switcher");
+                            themeSwitcher.addEventListener("change", function() {
+                                if (this.checked) {
+                                    document.documentElement.classList.add("dark-theme");
+                                } else {
+                                    document.documentElement.classList.remove("dark-theme");
+                                }
+                            });
+                        </script>
                         </body>
                         </html>
                         """
