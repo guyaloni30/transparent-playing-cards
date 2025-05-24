@@ -6,12 +6,13 @@ import cardsgame.spot.Dot;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.groupingBy;
 
 public record Card(Dot dot, Circle circle) implements Comparable<Card> {
-    public static final List<Card> cards = Map.of(
-                    dot(Color.blue, 0, 0), List.of(
+    public static final List<Card> cards = Stream.of(
+                    dotCards(Color.blue, 0, 0,
                             circle(Color.blue, 0, 3),
                             circle(Color.blue, 0, 3),
                             circle(Color.blue, 2, 0),
@@ -30,7 +31,7 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
                             circle(Color.purple, 1, 1),
                             circle(Color.purple, 1, 1),
                             circle(Color.purple, 1, 2)),
-                    dot(Color.orange, 0, 1), List.of(
+                    dotCards(Color.orange, 0, 1,
                             circle(Color.blue, 2, 0),
                             circle(Color.blue, 2, 0),
                             circle(Color.blue, 0, 3),
@@ -49,7 +50,7 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
                             circle(Color.green, 1, 0),
                             circle(Color.green, 1, 0),
                             circle(Color.green, 1, 3)),
-                    dot(Color.green, 1, 0), List.of(
+                    dotCards(Color.green, 1, 0,
                             circle(Color.blue, 2, 3),
                             circle(Color.blue, 2, 3),
                             circle(Color.blue, 0, 0),
@@ -62,7 +63,7 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
                             circle(Color.orange, 0, 1),
                             circle(Color.orange, 0, 1),
                             circle(Color.orange, 0, 2)),
-                    dot(Color.purple, 1, 1), List.of(
+                    dotCards(Color.purple, 1, 1,
                             circle(Color.blue, 0, 0),
                             circle(Color.blue, 0, 0),
                             circle(Color.blue, 2, 3),
@@ -75,9 +76,7 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
                             circle(Color.green, 1, 0),
                             circle(Color.purple, 1, 2),
                             circle(Color.purple, 1, 2)))
-            .entrySet()
-            .stream()
-            .flatMap(e -> e.getValue().stream().map(s2 -> new Card(e.getKey(), s2)))
+            .flatMap(Cards::cards)
             .sorted()
             .toList();
     public static final List<Card> distinct = cards.stream()
@@ -88,8 +87,8 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
             .distinct()
             .collect(groupingBy(c -> c.dot().color()));
 
-    private static Dot dot(Color color, int x, int y) {
-        return new Dot(color, x, y);
+    private static Cards dotCards(Color color, int x, int y, Circle... circles) {
+        return new Cards(new Dot(color, x, y), List.of(circles));
     }
 
     private static Circle circle(Color color, int x, int y) {
@@ -126,13 +125,22 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
 
     public static Card find(Color dotColor, int dotX, int dotY, Color circleColor, int circleX, int circleY) {
         return Card.distinct.stream()
-                .filter(c -> c.dot().is(dotColor, dotX, dotY))
-                .filter(c -> c.circle().is(circleColor, circleX, circleY))
+                .filter(c -> c.dot.is(dotColor, dotX, dotY))
+                .filter(c -> c.circle.is(circleColor, circleX, circleY))
                 .findFirst()
                 .get();
     }
 
     public List<Card> withDotMatchingMyCircle() {
         return withDotColor.get(circle.color());
+    }
+
+    public Card[] flip() {
+        return new Card[]{
+                this,
+                new Card(new Dot(dot.color(), 2 - dot.x(), dot.y()), new Circle(circle.color(), 2 - circle.x(), circle.y())),
+                new Card(new Dot(dot.color(), 2 - dot.x(), 3 - dot.y()), new Circle(circle.color(), 2 - circle.x(), 3 - circle.y())),
+                new Card(new Dot(dot.color(), dot.x(), 3 - dot.y()), new Circle(circle.color(), circle.x(), 3 - circle.y())),
+        };
     }
 }

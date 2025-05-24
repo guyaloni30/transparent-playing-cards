@@ -17,18 +17,7 @@ public abstract class ComparableCard {
         Map<Card, Card[]> flips = new IdentityHashMap<>();
         Card.cards.stream()
                 .distinct()
-                .forEach(originalCard -> {
-                    Dot dot = originalCard.dot();
-                    Circle circle = originalCard.circle();
-                    flips.put(
-                            originalCard,
-                            new Card[]{
-                                    originalCard,
-                                    new Card(new Dot(dot.color(), 2 - dot.x(), dot.y()), new Circle(circle.color(), 2 - circle.x(), circle.y())),
-                                    new Card(new Dot(dot.color(), 2 - dot.x(), 3 - dot.y()), new Circle(circle.color(), 2 - circle.x(), 3 - circle.y())),
-                                    new Card(new Dot(dot.color(), dot.x(), 3 - dot.y()), new Circle(circle.color(), circle.x(), 3 - circle.y())),
-                            });
-                });
+                .forEach(originalCard -> flips.put(originalCard, originalCard.flip()));
         return flips;
     }
 }
