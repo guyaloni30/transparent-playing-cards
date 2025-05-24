@@ -12,7 +12,11 @@ public enum Color {
         this.ansi = "\u001B[" + ansi + "m";
     }
 
-    public String print(String  text) {
+    public String print(String text) {
         return ansi + name() + " " + text + "\u001B[0m";//reset
+    }
+
+    public String html() {
+        return ".card ." + name() + " {border-color:" + name() + ";}.card .dot { background-color:" + name() + ";}";
     }
 }

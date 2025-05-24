@@ -1,5 +1,7 @@
 package cardsgame.spot;
 
+import java.util.Comparator;
+
 public interface Spot extends Comparable<Spot> {
     Color color();
 
@@ -7,18 +9,13 @@ public interface Spot extends Comparable<Spot> {
 
     int y();
 
+    Comparator<Spot> COMPARATOR = Comparator
+            .comparing(Spot::color)
+            .thenComparing(Spot::x)
+            .thenComparing(Spot::y);
+
     default int compareTo(Spot o) {
-        int diff = color().compareTo(o.color());
-        if (diff != 0) {
-            return diff;
-        }
-        if (x() != o.x()) {
-            return x() - o.x();
-        }
-        if (y() != o.y()) {
-            return y() - o.y();
-        }
-        return 0;
+        return COMPARATOR.compare(this, o);
     }
 
     default boolean is(Color color, int x, int y) {
@@ -29,9 +26,10 @@ public interface Spot extends Comparable<Spot> {
 
     default String toHtml() {
         String htmlClass = String.join(" ",
+                getClass().getSimpleName().toLowerCase(),
                 color().name(),
-                "x_" + x(),
-                "y_" + y());
+                "left_" + x(),
+                "top_" + y());
         return "<div class=\"" + htmlClass + "\">&nbsp;</div>";
     }
 }
