@@ -68,7 +68,7 @@
     </style>
 </head>
 <body>
-<label><input type="checkbox" id="theme-switcher">Dark mode</label>
+    <label><input type="checkbox" id="theme-switcher">Dark mode</label>
     <div class="card"><div class="dot blue left_0 top_0">&nbsp;</div><div class="circle blue left_0 top_3">&nbsp;</div></div>
     <div class="card"><div class="dot blue left_0 top_0">&nbsp;</div><div class="circle blue left_0 top_3">&nbsp;</div></div>
     <div class="card"><div class="dot blue left_0 top_0">&nbsp;</div><div class="circle blue left_2 top_0">&nbsp;</div></div>
@@ -129,15 +129,15 @@
     <div class="card"><div class="dot purple left_1 top_1">&nbsp;</div><div class="circle green left_1 top_3">&nbsp;</div></div>
     <div class="card"><div class="dot purple left_1 top_1">&nbsp;</div><div class="circle purple left_1 top_2">&nbsp;</div></div>
     <div class="card"><div class="dot purple left_1 top_1">&nbsp;</div><div class="circle purple left_1 top_2">&nbsp;</div></div>
-<script>
-    const themeSwitcher = document.getElementById("theme-switcher");
-    themeSwitcher.addEventListener("change", function() {
-        if (this.checked) {
-            document.documentElement.classList.add("dark-theme");
-        } else {
-            document.documentElement.classList.remove("dark-theme");
-        }
-    });
-</script>
+    <script>
+        const themeSwitcher = document.getElementById("theme-switcher");
+        themeSwitcher.addEventListener("change", () => {
+            if (themeSwitcher.checked) {
+                document.documentElement.classList.add("dark-theme");
+            } else {
+                document.documentElement.classList.remove("dark-theme");
+            }
+        });
+    </script>
 </body>
 </html>

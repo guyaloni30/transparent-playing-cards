@@ -18,7 +18,7 @@ public abstract class CardsHtml {
                 .collect(Collectors.joining("\n        "));
         String cardsHtml = Card.cards.stream()
                 .map(Card::toHtml)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n    "));
         Files.writeString(
                 Path.of("cards.html"),
                 """
@@ -89,18 +89,18 @@ public abstract class CardsHtml {
                             </style>
                         </head>
                         <body>
-                        <label><input type="checkbox" id="theme-switcher">Dark mode</label>
-                        {{CARDS_HTML}}
-                        <script>
-                            const themeSwitcher = document.getElementById("theme-switcher");
-                            themeSwitcher.addEventListener("change", function() {
-                                if (this.checked) {
-                                    document.documentElement.classList.add("dark-theme");
-                                } else {
-                                    document.documentElement.classList.remove("dark-theme");
-                                }
-                            });
-                        </script>
+                            <label><input type="checkbox" id="theme-switcher">Dark mode</label>
+                            {{CARDS_HTML}}
+                            <script>
+                                const themeSwitcher = document.getElementById("theme-switcher");
+                                themeSwitcher.addEventListener("change", () => {
+                                    if (themeSwitcher.checked) {
+                                        document.documentElement.classList.add("dark-theme");
+                                    } else {
+                                        document.documentElement.classList.remove("dark-theme");
+                                    }
+                                });
+                            </script>
                         </body>
                         </html>
                         """

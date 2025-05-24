@@ -105,7 +105,7 @@ public record Card(Dot dot, Circle circle) implements Comparable<Card> {
     }
 
     public String toHtml() {
-        return "    <div class=\"card\">" + dot.toHtml() + circle.toHtml() + "</div>";
+        return "<div class=\"card\">" + dot.toHtml() + circle.toHtml() + "</div>";
     }
 
     public boolean circleMatchesDot(Card other) {
